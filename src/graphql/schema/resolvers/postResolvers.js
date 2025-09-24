@@ -1,9 +1,9 @@
-const Post = require('../../models/Post');
-const Like = require('../../models/Like');
-const Comment = require('../../models/Comment');
+const Post = require('../../../models/Post');
+const Like = require('../../../models/Like');
+const Comment = require('../../../models/Comment');
 const { AuthenticationError } = require('apollo-server-express');
-const { uploadToCloudinary } = require('../../config/cloudinary');
-const { getUser } = require('../../graphql/dataloaders/userLoader');
+const { uploadToCloudinary } = require('../../../config/cloudinary');
+const { getUser } = require('../../../graphql/dataloaders/userLoader');
 
 const postResolvers = {
   Query: {

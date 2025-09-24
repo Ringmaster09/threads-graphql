@@ -1,28 +1,28 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const depthLimit = require('graphql-depth-limit');
-// FIX: require from the lib path to avoid ERR_PACKAGE_PATH_NOT_EXPORTED
-const { graphqlUploadExpress } = require('graphql-upload/lib/index.js');
+const { graphqlUploadExpress } = require('graphql-upload');
 
 const connectDB = require('./config/database');
 const typeDefs = require('./graphql/schema/typeDefs');
-const resolvers = require('./graphql/resolvers');
+const resolvers = require('./graphql/schema/resolvers');
+
 const authenticate = require('./middleware/auth');
 const { getUserLoader } = require('./graphql/dataloaders/userLoader');
 
 require('dotenv').config();
 
 async function startServer() {
-  // Connect to database
+  // Connect to MongoDB
   await connectDB();
 
   // Create Express app
   const app = express();
 
-  // GraphQL upload middleware
+  // Middleware for handling file uploads
   app.use(graphqlUploadExpress());
 
-  // Create Apollo Server
+  // Apollo Server setup
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -34,23 +34,25 @@ async function startServer() {
         getUserLoader: getUserLoader(),
       };
     },
-    uploads: false, // Disable Apollo Server's built-in upload handling
+    uploads: false, // Disable Apollo’s built-in upload handling
   });
 
-  // Start Apollo Server
+  // Start Apollo
   await server.start();
 
-  // Apply Apollo middleware to Express app
+  // Attach Apollo middleware to Express
   server.applyMiddleware({ app });
 
-  // Start server
+  // Run server
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
+    console.log(
+      `🚀 Server running at http://localhost:${PORT}${server.graphqlPath}`
+    );
   });
 }
 
-// Start the server
-startServer().catch(error => {
-  console.error('Error starting server:', error);
+// Start
+startServer().catch((err) => {
+  console.error('❌ Error starting server:', err);
 });

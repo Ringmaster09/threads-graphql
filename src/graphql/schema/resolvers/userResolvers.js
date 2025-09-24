@@ -1,9 +1,9 @@
-const User = require('../../models/User');
-const Follow = require('../../models/Follow');
-const Post = require('../../models/Post');
+const User = require('../../../models/User');
+const Follow = require('../../../models/Follow');
+const Post = require('../../../models/Post');
 const { AuthenticationError } = require('apollo-server-express');
-const { uploadToCloudinary } = require('../../config/cloudinary');
-const { getUser } = require('../../graphql/dataloaders/userLoader');
+const { uploadToCloudinary } = require('../../../config/cloudinary');
+const { getUser } = require('../../../graphql/dataloaders/userLoader');
 
 const userResolvers = {
   Query: {

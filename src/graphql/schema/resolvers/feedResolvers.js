@@ -1,5 +1,5 @@
-const Post = require('../../models/Post');
-const Follow = require('../../models/Follow');
+const Post = require('../../../models/Post');
+const Follow = require('../../../models/Follow');
 const { AuthenticationError } = require('apollo-server-express');
 
 const feedResolvers = {
